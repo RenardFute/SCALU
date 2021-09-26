@@ -20,6 +20,7 @@ If you provide multiples blueprints to SCALU, you will be able to select any thr
 - Web Management
 - Server Tracking
 - Multiple Game Management
+- Parameters (Being able to replace some placeholder in the blueprint)
 
 ### Done <img alt="Check" src="https://media.giphy.com/media/BNikicO9hwjNJETf03/giphy.gif?cid=790b761184bec1abfff1419d6be32f7d8ae39388176f59a7&rid=giphy.gif&ct=s" width="16" />
 
