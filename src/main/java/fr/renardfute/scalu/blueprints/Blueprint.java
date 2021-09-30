@@ -1,6 +1,7 @@
 package fr.renardfute.scalu.blueprints;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.renardfute.scalu.SCALU;
 import fr.renardfute.scalu.blueprints.errors.BlueprintNotFindException;
 import fr.renardfute.scalu.blueprints.errors.MultipleBlueprintException;
@@ -96,18 +97,34 @@ public class Blueprint {
     }
 
     /**
-     * Create a blueprint by only giving its name. Its id will be generated and its folder will be its name.
+     * Create a blueprint by giving its full configuration
+     * @param name The name you want for the blueprint
+     * @param launch The command that will launch the server
+     * @param stop The command that will stop the server
+     * @return The created blueprint
+     * @author renardfute
+     * @since 1.0
+     */
+    public static Blueprint create(String name, String launch, String stop) throws Exception {
+        BlueprintConfiguration config = new BlueprintConfiguration();
+        config.name = name;
+        config.uuid = UUID.randomUUID().toString();
+        config.launchCommand = launch;
+        config.stopCommand = stop;
+
+        return create(config);
+    }
+
+    /**
+     * Create a blueprint by only giving its name. Its id will be generated and its folder will be its name. <br>
+     * Caution this will set launch and stop commands by default to "launch" & "stop". See {@link}
      * @param name The name you want for the blueprint
      * @return The created blueprint
      * @author renardfute
      * @since 1.0
      */
     public static Blueprint create(String name) throws Exception {
-        BlueprintConfiguration config = new BlueprintConfiguration();
-        config.name = name;
-        config.uuid = UUID.randomUUID().toString();
-
-        return create(config);
+        return create(name, "launch", "stop");
     }
 
     public void init() throws Exception {
@@ -117,13 +134,20 @@ public class Blueprint {
         }
 
         File dir = new File(SCALU.INSTANCE.directory, this.config.name);
-        boolean ignored = dir.mkdirs();
+        boolean error = dir.mkdirs();
         this.config.directory = dir.getPath();
 
-        File configFile = new File(this.config.directory, "config.scalu");
-        boolean ignored_ = configFile.createNewFile();
+        File serverDir = new File(this.config.directory, "servers");
+        error &= serverDir.mkdirs();
+        File templateDir = new File(this.config.directory, "template");
+        error &= templateDir.mkdirs();
 
-        Gson gson = new Gson();
+        File configFile = new File(this.config.directory, "config.scalu");
+        error &= configFile.createNewFile();
+
+        if(SCALU.IS_WARNING_PRINTED && !error) System.err.println("⚠ Warning: Something went wrong while initiating the following blueprint => " + this.config.name + "("+this.config.uuid + ")");
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileUtils.writeFile(configFile, gson.toJson(this.config));
     }
 
@@ -167,7 +191,7 @@ public class Blueprint {
 
             // Check if there is only one config
             if (files.length > 1) {
-                System.err.println("⚠ Warning: " + dir.getAbsolutePath() + " contains more than one 'config.scalu'. It will not be taken into consideration, please fix it.");
+                if(SCALU.IS_WARNING_PRINTED) System.err.println("⚠ Warning: " + dir.getAbsolutePath() + " contains more than one 'config.scalu'. It will not be taken into consideration, please fix it.");
                 continue;
             }
 

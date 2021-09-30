@@ -1,15 +1,15 @@
-package fr.renardfute.scalu.blueprints.errors;
+package fr.renardfute.scalu.server.errors;
 
-import fr.renardfute.scalu.blueprints.Blueprint;
+import fr.renardfute.scalu.server.Server;
 
 /**
- * Parent class for all exception related to blueprints
+ * Parent class for all exception related to servers
  * @author renardfute
  * @since 1.0
  */
-public abstract class BlueprintException extends Exception {
+public abstract class ServerException extends Exception {
 
-    public Blueprint blueprint;
+    public Server server;
 
     /**
      * Constructs a new exception with the specified detail message.  The
@@ -18,14 +18,12 @@ public abstract class BlueprintException extends Exception {
      *
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
-     * @param blueprint the blueprint that caused the error.
+     * @param server The server that is related to this error.
      * @author renardfute
      * @since 1.0
      */
-    public BlueprintException(String message, Blueprint blueprint) {
+    public ServerException(String message, Server server) {
         super(message);
-        this.blueprint = blueprint;
+        this.server = server;
     }
-
-
 }

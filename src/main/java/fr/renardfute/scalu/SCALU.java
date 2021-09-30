@@ -13,6 +13,9 @@ public class SCALU {
 
     public File directory;
     public static SCALU INSTANCE;
+    public static boolean IS_DEBUGGING = true;
+    public static boolean IS_WARNING_PRINTED = true;
+    public static boolean IS_SERVERS_OUTPUT_PRINTED = false;
 
     /**
      * Main constructor to instantiate SCALU

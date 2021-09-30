@@ -18,19 +18,18 @@ If you provide multiples blueprints to SCALU, you will be able to select any thr
 
 - GUI
 - Web Management
-- Server Tracking
 - Multiple Game Management
 - Parameters (Being able to replace some placeholder in the blueprint)
 
 ### Done <img alt="Check" src="https://media.giphy.com/media/BNikicO9hwjNJETf03/giphy.gif?cid=790b761184bec1abfff1419d6be32f7d8ae39388176f59a7&rid=giphy.gif&ct=s" width="16" />
 
-- Nothing
+- Create Server
+- Launch Server
 
 ### W.I.P <img alt="Check" src="https://media.giphy.com/media/Re42v0a6GSmJT09jUd/giphy.gif?cid=ecf05e47sqfj6l6gnlyykyk10x8pixeg70jv37shb45x8xdn&rid=giphy.gif&ct=s" width="32" />
 
 - Managing Blueprints
-- Create Server
-- Launch Server
+- Server Tracking
 
 ## <center> More <img alt="Infos" src="https://media.giphy.com/media/6P1yUmliD12R0YqWBh/giphy.gif?cid=ecf05e47kkcjdywe6i8nhq7rydg9g2yr2bksoupqjd0888hd&rid=giphy.gif&ct=s" width="16"/>
 

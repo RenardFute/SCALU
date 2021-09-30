@@ -13,5 +13,7 @@ public class BlueprintConfiguration {
     public String name;
     public String uuid;
     public String directory;
+    public String launchCommand;
+    public String stopCommand;
 
 }
