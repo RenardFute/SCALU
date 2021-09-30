@@ -71,12 +71,12 @@ public class FileUtils {
     }
 
     /**
-     * Will delete a directory recursively.
+     * Will delete a directory recursively. <br>
+     * See https://www.baeldung.com/java-delete-directory
      * @param directory The directory to delete
      * @return The success of the operation
-     * @author renardfute & Internet
+     * @author renardfute with Internet
      * @since 1.0
-     * @link https://www.baeldung.com/java-delete-directory
      */
     public static boolean deleteDirectory(File directory) {
         File[] contents = directory.listFiles();

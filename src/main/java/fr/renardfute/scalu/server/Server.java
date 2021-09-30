@@ -33,6 +33,11 @@ public class Server {
         }
     }
 
+    /**
+     * This functions copies the template, give it an id and paste it in the server folder
+     * @author renardfute
+     * @since 1.0
+     */
     public void create() {
         File bpDir = new File(blueprint.config.directory, "template");
         this.directory = new File(blueprint.config.directory, "servers/" + uuid.toString());

@@ -87,6 +87,7 @@ public class Blueprint {
      * @param config The configuration of the blueprint you want to create
      * @return The created blueprint
      * @author renardfute
+     * @throws Exception see {@link Blueprint#init()}
      * @since 1.0
      */
     public static Blueprint create(BlueprintConfiguration config) throws Exception {
@@ -103,6 +104,7 @@ public class Blueprint {
      * @param stop The command that will stop the server
      * @return The created blueprint
      * @author renardfute
+     * @throws Exception see {@link Blueprint#init()}
      * @since 1.0
      */
     public static Blueprint create(String name, String launch, String stop) throws Exception {
@@ -117,10 +119,11 @@ public class Blueprint {
 
     /**
      * Create a blueprint by only giving its name. Its id will be generated and its folder will be its name. <br>
-     * Caution this will set launch and stop commands by default to "launch" & "stop". See {@link}
+     * Caution this will set launch and stop commands by default to "launch" and "stop". See {@link}
      * @param name The name you want for the blueprint
      * @return The created blueprint
      * @author renardfute
+     * @throws Exception see {@link Blueprint#init()}
      * @since 1.0
      */
     public static Blueprint create(String name) throws Exception {
