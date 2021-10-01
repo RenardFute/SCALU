@@ -9,6 +9,7 @@ import fr.renardfute.scalu.errors.SCALUNotInstanced;
 import fr.renardfute.scalu.utils.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,8 +151,7 @@ public class Blueprint {
 
         if(SCALU.IS_WARNING_PRINTED && !error) System.err.println("⚠ Warning: Something went wrong while initiating the following blueprint => " + this.config.name + "("+this.config.uuid + ")");
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileUtils.writeFile(configFile, gson.toJson(this.config));
+        this.save();
     }
 
     /**
@@ -209,6 +209,42 @@ public class Blueprint {
         }
 
         return result;
+    }
+
+    /**
+     * This function delete the directory of this blueprint without warning.
+     * So be careful
+     * @author renardfute
+     * @since 1.0
+     */
+    public void delete(){
+        FileUtils.deleteDirectory(new File(this.config.directory));
+    }
+
+    /**
+     * Change the name in the {@link BlueprintConfiguration} and then save the blueprint.
+     * @param name The new name you for this blueprint
+     * @author renarfute
+     * @since 1.0
+     */
+    public void rename(String name){
+        this.config.name = name;
+        try {
+            this.save();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Save the current configuration in the config.scalu file
+     * @throws IOException see {@link FileUtils#writeFile(File, String)}
+     * @author renardfute
+     * @since 1.0
+     */
+    public void save() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileUtils.writeFile(new File(this.config.directory, "config.scalu"), gson.toJson(this.config));
     }
 
 }
