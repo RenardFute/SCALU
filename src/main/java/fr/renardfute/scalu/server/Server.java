@@ -3,16 +3,22 @@ package fr.renardfute.scalu.server;
 import fr.renardfute.scalu.blueprints.Blueprint;
 import fr.renardfute.scalu.server.errors.ServerNotLaunchedException;
 import fr.renardfute.scalu.utils.FileUtils;
+import fr.renardfute.scalu.utils.ServerTrackingRunnable;
 import fr.renardfute.scalu.utils.StreamGobbler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import static fr.renardfute.scalu.SCALU.IS_WARNING_PRINTED;
 
-
+/**
+ * A server object is a copy of a blueprint that can be launched and tracked
+ * @author renardfute
+ * @since 1.0
+ */
 public class Server {
 
     public Blueprint blueprint;
@@ -20,6 +26,8 @@ public class Server {
     public File directory;
     public Process process;
     public StreamGobbler gobbler;
+    public ServerState state;
+    public short port = -1;
 
     public Server(Blueprint blueprint){
         this.blueprint = blueprint;
@@ -27,8 +35,10 @@ public class Server {
 
         create();
         try {
+            this.state = ServerState.STARTING;
             launch();
         } catch (IOException e) {
+            this.state = ServerState.STOPPED;
             e.printStackTrace();
         }
     }
@@ -52,6 +62,12 @@ public class Server {
         if(!error && IS_WARNING_PRINTED) System.err.println("⚠ Warning: Something went wrong while copying the server " + uuid.toString());
     }
 
+    /**
+     * This will launch the server
+     * @throws IOException Thrown if there is any error with the threading
+     * @author renardfute
+     * @since 1.0
+     */
     public void launch() throws IOException {
         new Thread(() -> {
             ProcessBuilder builder = new ProcessBuilder(this.blueprint.config.launchCommand.split(" "));
@@ -65,8 +81,11 @@ public class Server {
             System.out.println(this.blueprint.config.launchCommand);
             this.gobbler = new StreamGobbler(process.getInputStream(), process.getOutputStream(), System.out::println);
             Executors.newSingleThreadExecutor().submit(this.gobbler);
-        }).start();
+            this.state = ServerState.RUNNING;
 
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new ServerTrackingRunnable(this), 0, 1000);
+        }).start();
     }
 
     /**
@@ -87,6 +106,12 @@ public class Server {
         return FileUtils.deleteDirectory(this.directory);
     }
 
+    /**
+     * Will stop the server
+     * @throws ServerNotLaunchedException Thrown if the server is already stopped or has never been launched !
+     * @author renardfute
+     * @since 1.0
+     */
     public void stop() throws ServerNotLaunchedException {
         if (!this.process.isAlive()){
             throw new ServerNotLaunchedException(this, "stop the server");
@@ -99,6 +124,7 @@ public class Server {
             if(!this.process.isAlive()) {
                 this.gobbler = null;
             }
+            this.state = ServerState.STOPPED;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

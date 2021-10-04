@@ -222,7 +222,8 @@ public class Blueprint {
     }
 
     /**
-     * Change the name in the {@link BlueprintConfiguration} and then save the blueprint.
+     * Change the name in the {@link BlueprintConfiguration} and then save the blueprint. <br>
+     * This will not change the directory name.
      * @param name The new name you for this blueprint
      * @author renarfute
      * @since 1.0
