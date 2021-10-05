@@ -3,6 +3,7 @@ package fr.renardfute.scalu.utils;
 import fr.renardfute.scalu.server.Server;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,8 +28,9 @@ public class ServerUtils {
         try{
             p = Runtime.getRuntime().exec(command);
             p.waitFor();
+            InputStreamReader stream = new InputStreamReader(p.getInputStream());
             BufferedReader reader =
-                new BufferedReader(new InputStreamReader(p.getInputStream()));
+                new BufferedReader(stream);
 
             String line;
             while ((line = reader.readLine())!= null) {
@@ -40,6 +42,9 @@ public class ServerUtils {
                     }
                 }
             }
+
+            stream.close();
+            reader.close();
 
         } catch (Exception e) {
             e.printStackTrace();
