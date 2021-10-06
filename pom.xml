@@ -7,6 +7,9 @@
     <groupId>fr.renardfute</groupId>
     <artifactId>SCALU</artifactId>
     <version>1.0</version>
+    <name>SCALU</name>
+    <description>SCALU is a Java library for managing and creating multiples instance of server from the same blueprint.</description>
+    <url>https://github.com/RenardFute/SCALU</url>
 
     <developers>
         <developer>
